@@ -55,7 +55,7 @@ class Professor extends React.Component {
     })
   }
   //fields alterar
-  preencheId__(id__) { this.setState({ id__:id__.toString() }) }
+  preencheId__(id__) { this.setState({ id__: id__.toString() }) }
   preencheCpf__(cpf__) { this.setState({ cpf__: cpf__.toString().maskCpf() }) }
   preencheNome__(nome__) { this.setState({ nome__ }) }
   preencheEmail__(email__) { this.setState({ email__: email__.toLowerCase().replaceAll(" ", "") }) }
@@ -159,7 +159,7 @@ class Professor extends React.Component {
         let f = true;
         let o = {};
         o.id = st.id__;
-        o.cpf = st.cpf__.replace(/[^0-9]/g, "");
+        o.cpf = st.cpf__;
         o.nome = st.nome__;
         o.email = st.email__;
         o.telefone = st.telefone__;
@@ -187,7 +187,7 @@ class Professor extends React.Component {
   }
   buscarPorId = async (id) => {
     // segundo atualiza <----------------------------
-      console.log(id)
+    console.log(id)
     this.limparFormlulario__();
     this.setState({ loading: true })
     await GET("professor/buscar/" + id)
@@ -319,20 +319,19 @@ class Professor extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.lista.map(o => {
-                    return (
-                      <tr key={o.id}>
-                        <td>{o.id}</td>
-                        <td>{o.cpf.toString().maskCpf()}</td>
-                        <td>{o.nome}</td>
-                        <td>{o.email}</td>
-                        <td>{o.telefone}</td>
-                        <td>{o.permissao}</td>
-                        <td className="acao" ><Button onClick={() => this.buscarPorId(o.id)}>Alterar</Button></td>
-                        <td className="acao" ><Button onClick={() => { if (window.confirm("Deseja remover esse item? \n#" + o.id)) this.removerLinha(o.id) }}>Deletar</Button></td>
-                      </tr>
-                    );
-                  })}
+                  {this.state.lista.map(o => (
+                    <tr key={o.id}>
+                      <td>{o.id}</td>
+                      <td>{o.cpf.toString().maskCpf()}</td>
+                      <td>{o.nome}</td>
+                      <td>{o.email}</td>
+                      <td>{o.telefone.toString().maskTelefone()}</td>
+                      <td>{o.permissao}</td>
+                      <td className="acao" ><Button onClick={() => this.buscarPorId(o.id)}>Alterar</Button></td>
+                      <td className="acao" ><Button onClick={() => { if (window.confirm("Deseja remover esse item? \n#" + o.id)) this.removerLinha(o.id) }}>Deletar</Button></td>
+                    </tr>
+                  )
+                  )}
                   <BarraInicial exec={inicial} message='Não possui itens para carregar.' colspan="5" />
                 </tbody>
                 <Loading loading={loading} message='Carregando ...' />
